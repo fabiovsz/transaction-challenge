@@ -1,2 +1,2 @@
 # transactionchallenge
-Back-end spring challenge
+Back-end java spring challenge
