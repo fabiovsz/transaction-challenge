@@ -2,8 +2,6 @@ package com.transactionchallenge.domain.user;
 
 import java.util.UUID;
 
-import org.hibernate.usertype.UserType;
-
 import com.transactionchallenge.domain.transaction.Transaction;
 
 import java.math.BigDecimal;

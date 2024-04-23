@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.transactionchallenge.exceptions.ShopkeeperUserException;
+import com.transactionchallenge.exceptions.TransactionNotAuthorizedException;
 import com.transactionchallenge.exceptions.TransactionNotFoundException;
 import com.transactionchallenge.exceptions.UnavailableBalanceException;
 import com.transactionchallenge.exceptions.UserFoundException;
@@ -37,5 +39,17 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     private ResponseEntity transactionNotFoundHandler(TransactionNotFoundException exception) {
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+    }
+
+    @ExceptionHandler(ShopkeeperUserException.class)
+    private ResponseEntity shopkeeperUserException(ShopkeeperUserException exception) {
+        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+    }
+
+    @ExceptionHandler(TransactionNotAuthorizedException.class)
+    private ResponseEntity transactionNotAuthorizedException(TransactionNotAuthorizedException exception) {
+        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.UNAUTHORIZED, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
     }
 }
