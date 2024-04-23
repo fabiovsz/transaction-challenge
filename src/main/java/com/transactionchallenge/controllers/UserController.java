@@ -19,13 +19,8 @@ public class UserController {
 
     @PostMapping("/")
     public ResponseEntity<Object> createUser(@RequestBody User user) {
-        try {
-            var result = this.userService.createUser(user);
-
-            return ResponseEntity.ok().body(result);
-        } catch(Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        var result = this.userService.createUser(user);
+        return ResponseEntity.ok().body(result);
     }
     
 }
