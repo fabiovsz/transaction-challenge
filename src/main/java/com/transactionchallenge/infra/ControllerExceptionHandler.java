@@ -1,17 +1,11 @@
 package com.transactionchallenge.infra;
 
+import com.transactionchallenge.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import com.transactionchallenge.exceptions.ShopkeeperUserException;
-import com.transactionchallenge.exceptions.TransactionNotAuthorizedException;
-import com.transactionchallenge.exceptions.TransactionNotFoundException;
-import com.transactionchallenge.exceptions.UnavailableBalanceException;
-import com.transactionchallenge.exceptions.UserFoundException;
-import com.transactionchallenge.exceptions.UserNotFoundException;
 
 
 @RestControllerAdvice
@@ -51,5 +45,17 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     private ResponseEntity transactionNotAuthorizedException(TransactionNotAuthorizedException exception) {
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.UNAUTHORIZED, exception.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
+    }
+
+    @ExceptionHandler(EmailServiceOfflineException.class)
+    private ResponseEntity emailServiceOfflineException(EmailServiceOfflineException exception) {
+        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    private ResponseEntity runtimeException(RuntimeException exception) {
+        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
     }
 }

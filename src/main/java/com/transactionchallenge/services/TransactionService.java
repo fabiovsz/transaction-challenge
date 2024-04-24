@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import com.transactionchallenge.domain.transaction.Transaction;
 import com.transactionchallenge.domain.user.User;
 import com.transactionchallenge.domain.user.UserType;
-import com.transactionchallenge.dto.CreateTransactionDTO;
+import com.transactionchallenge.dto.transaction.CreateTransactionDTO;
 import com.transactionchallenge.exceptions.ShopkeeperUserException;
 import com.transactionchallenge.exceptions.TransactionNotAuthorizedException;
 import com.transactionchallenge.exceptions.TransactionNotFoundException;
@@ -19,6 +19,8 @@ import com.transactionchallenge.exceptions.UnavailableBalanceException;
 import com.transactionchallenge.exceptions.UserNotFoundException;
 import com.transactionchallenge.repositories.TransactionRepository;
 import com.transactionchallenge.repositories.UserRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class TransactionService {
@@ -32,6 +34,10 @@ public class TransactionService {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private  EmailService emailService;
+
+    @Transactional
     public Transaction createTransaction(CreateTransactionDTO transactionDTO) {
         var sender = this.userRepository.findById(transactionDTO.getSenderId()).orElseThrow(
             () -> {
@@ -58,8 +64,10 @@ public class TransactionService {
             .receiver(receiver)
             .amount(transactionDTO.getAmount())
             .build();
-        
-        return this.transactionRepository.save(newTransaction);
+        var createdTransaction = this.transactionRepository.save(newTransaction);
+        this.emailService.sendTransactionEmail(createdTransaction);
+
+        return createdTransaction;
     }
 
     public boolean validateTransaction(User sender, BigDecimal amount) {
@@ -74,7 +82,7 @@ public class TransactionService {
         var authorizeTransactionUrl = "https://run.mocky.io/v3/5794d450-d2e2-4412-8131-73d0293ac1cc";
         var authorizeTransactionResponse = this.restTemplate.getForEntity(authorizeTransactionUrl, Map.class);
 
-        if (authorizeTransactionResponse.getBody().get("message") != "Autorizado") {
+        if (!authorizeTransactionResponse.getBody().get("message").equals("Autorizado")) {
             throw new TransactionNotAuthorizedException();
         }
 

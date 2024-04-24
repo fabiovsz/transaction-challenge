@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.transactionchallenge.domain.user.User;
 
 import jakarta.persistence.Entity;
@@ -38,6 +41,10 @@ public class Transaction {
     @JoinColumn(name = "receiver_id", nullable = false)
     private User receiver;
 
-    private LocalDateTime timestamp;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
 }

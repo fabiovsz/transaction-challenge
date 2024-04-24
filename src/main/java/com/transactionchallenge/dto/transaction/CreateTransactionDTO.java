@@ -1,4 +1,4 @@
-package com.transactionchallenge.dto;
+package com.transactionchallenge.dto.transaction;
 
 import java.math.BigDecimal;
 import java.util.UUID;
