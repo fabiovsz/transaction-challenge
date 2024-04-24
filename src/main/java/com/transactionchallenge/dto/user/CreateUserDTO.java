@@ -1,6 +1,8 @@
-package com.transactionchallenge.dto;
+package com.transactionchallenge.dto.user;
 
-import org.hibernate.usertype.UserType;
+import java.math.BigDecimal;
+
+import com.transactionchallenge.domain.user.UserType;
 
 import lombok.Data;
 
@@ -12,4 +14,5 @@ public class CreateUserDTO {
     private String email;
     private String password;
     private String document;
+    private BigDecimal balance;
 }

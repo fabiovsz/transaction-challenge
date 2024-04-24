@@ -2,6 +2,9 @@ package com.transactionchallenge.domain.user;
 
 import java.util.UUID;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.transactionchallenge.domain.transaction.Transaction;
 
 import java.math.BigDecimal;
@@ -49,8 +52,15 @@ public class User {
     private String password;
     private BigDecimal balance;
 
-    @OneToMany(mappedBy = "users")
-    private List<Transaction> transactions;
+    @OneToMany(mappedBy = "sender")
+    private List<Transaction> senderTransactions;
 
-    private LocalDateTime timestamp;
+    @OneToMany(mappedBy = "receiver")
+    private List<Transaction> receiverTransactions;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 }
