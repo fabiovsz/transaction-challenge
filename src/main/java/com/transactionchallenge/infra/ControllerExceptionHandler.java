@@ -13,32 +13,32 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     
     @ExceptionHandler(UserFoundException.class)
     private ResponseEntity userFoundHandler(UserFoundException exception) {
-        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.CONFLICT, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     private ResponseEntity userNotFoundHandler(UserNotFoundException exception) {
-        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
     }
 
     @ExceptionHandler(UnavailableBalanceException.class)
     private ResponseEntity unavailableBalanceHandler(UnavailableBalanceException exception) {
-        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 
     @ExceptionHandler(TransactionNotFoundException.class)
     private ResponseEntity transactionNotFoundHandler(TransactionNotFoundException exception) {
-        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
     }
 
     @ExceptionHandler(ShopkeeperUserException.class)
     private ResponseEntity shopkeeperUserException(ShopkeeperUserException exception) {
-        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.UNAUTHORIZED, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
     }
 
     @ExceptionHandler(TransactionNotAuthorizedException.class)
@@ -49,8 +49,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EmailServiceOfflineException.class)
     private ResponseEntity emailServiceOfflineException(EmailServiceOfflineException exception) {
-        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
+        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.SERVICE_UNAVAILABLE, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(errorMessage);
     }
 
     @ExceptionHandler(RuntimeException.class)
