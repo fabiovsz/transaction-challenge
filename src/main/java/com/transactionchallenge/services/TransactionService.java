@@ -71,7 +71,7 @@ public class TransactionService {
     }
 
     public boolean validateTransaction(User sender, BigDecimal amount) {
-        if (sender.getUserType() == UserType.SHOPKEEPERS) {
+        if (sender.getUserType() == UserType.SHOPKEEPER) {
             throw new ShopkeeperUserException();
         }
         
@@ -79,10 +79,10 @@ public class TransactionService {
             throw new UnavailableBalanceException();
         }
 
-        var authorizeTransactionUrl = "https://run.mocky.io/v3/5794d450-d2e2-4412-8131-73d0293ac1cc";
+        var authorizeTransactionUrl = "https://util.devi.tools/api/v2/authorize";
         var authorizeTransactionResponse = this.restTemplate.getForEntity(authorizeTransactionUrl, Map.class);
 
-        if (!authorizeTransactionResponse.getBody().get("message").equals("Autorizado")) {
+        if (!authorizeTransactionResponse.getBody().get("status").equals("success")) {
             throw new TransactionNotAuthorizedException();
         }
 

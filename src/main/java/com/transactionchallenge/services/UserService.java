@@ -14,10 +14,11 @@ public class UserService {
     private UserRepository userRepository;
 
     public User createUser(User user) {
-        this.userRepository.findUserByEmail(user.getEmail())
-            .ifPresent((userRecord) -> {
-                throw new UserFoundException();
-            });
+        var userRecord = this.userRepository.findUserByEmail(user.getEmail());
+
+        if (userRecord.isPresent()) {
+            throw new UserFoundException();
+        }
         
         return this.userRepository.save(user);
     }

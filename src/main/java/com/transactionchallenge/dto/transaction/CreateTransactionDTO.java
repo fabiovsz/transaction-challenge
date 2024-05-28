@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import lombok.Data;
 
+
+
 @Data
 public class CreateTransactionDTO {
     private BigDecimal amount;

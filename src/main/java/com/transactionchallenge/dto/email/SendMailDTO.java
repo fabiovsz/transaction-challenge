@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class SendMailDTO {
-    public String to;
-    public String from;
-    public String message;
-    public String subject;
+    private String to;
+    private String from;
+    private String message;
+    private String subject;
 }

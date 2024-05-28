@@ -6,6 +6,8 @@ import com.transactionchallenge.domain.user.UserType;
 
 import lombok.Data;
 
+
+
 @Data
 public class CreateUserDTO {
     private String firstName;

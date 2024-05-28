@@ -36,25 +36,31 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ShopkeeperUserException.class)
-    private ResponseEntity shopkeeperUserException(ShopkeeperUserException exception) {
+    private ResponseEntity shopkeeperUserHandler(ShopkeeperUserException exception) {
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.UNAUTHORIZED, exception.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
     }
 
     @ExceptionHandler(TransactionNotAuthorizedException.class)
-    private ResponseEntity transactionNotAuthorizedException(TransactionNotAuthorizedException exception) {
+    private ResponseEntity transactionNotAuthorizedHandler(TransactionNotAuthorizedException exception) {
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.UNAUTHORIZED, exception.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
     }
 
     @ExceptionHandler(EmailServiceOfflineException.class)
-    private ResponseEntity emailServiceOfflineException(EmailServiceOfflineException exception) {
+    private ResponseEntity emailServiceOfflineHandler(EmailServiceOfflineException exception) {
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.SERVICE_UNAVAILABLE, exception.getMessage());
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(errorMessage);
     }
 
     @ExceptionHandler(RuntimeException.class)
-    private ResponseEntity runtimeException(RuntimeException exception) {
+    private ResponseEntity runtimeHandler(RuntimeException exception) {
+        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+    }
+
+    @ExceptionHandler(GenerationTokenException.class)
+    private ResponseEntity generationTokenHandler(GenerationTokenException exception) {
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
     }

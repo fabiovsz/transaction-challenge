@@ -24,10 +24,10 @@ public class EmailService {
     public void sendEmail(SendMailDTO sendMailDTO) {
         SimpleMailMessage message = new SimpleMailMessage();
         
-        message.setTo(sendMailDTO.to);
-        message.setFrom(sendMailDTO.from);
-        message.setSubject(sendMailDTO.subject);
-        message.setText(sendMailDTO.message);
+        message.setTo(sendMailDTO.getTo());
+        message.setFrom(sendMailDTO.getFrom());
+        message.setSubject(sendMailDTO.getSubject());
+        message.setText(sendMailDTO.getMessage());
 
         emailSender.send(message);
     }
@@ -43,13 +43,16 @@ public class EmailService {
                 .subject("Received transfer")
                 .build();
 
-        var emailServiceStatusUrl = "https://run.mocky.io/v3/54dc2cf1-3add-45b5-b5a9-6bf7e7f1f4a6";
-        var emailServiceStatusResponse = this.restTemplate.getForEntity(emailServiceStatusUrl, Map.class);
-        var emailServiceMessage = emailServiceStatusResponse.getBody().get("message").toString();
+
+        //Obs: Url is not available
+
+        // var emailServiceStatusUrl = "https://util.devi.tools/api/v1/notify";
+        // var emailServiceStatusResponse = this.restTemplate.getForEntity(emailServiceStatusUrl, Map.class);
+        // var emailServiceMessage = emailServiceStatusResponse.getBody().get("message").toString();
         
-        if (Boolean.parseBoolean(emailServiceMessage) == false) {
-            throw new EmailServiceOfflineException();
-        }
+        // if (Boolean.parseBoolean(emailServiceMessage) == false) {
+        //     throw new EmailServiceOfflineException();
+        // }
 
         this.sendEmail(sendMailData);
     }
