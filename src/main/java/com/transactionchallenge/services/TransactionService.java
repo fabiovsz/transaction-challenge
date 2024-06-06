@@ -2,7 +2,6 @@ package com.transactionchallenge.services;
 
 import java.math.BigDecimal;
 import java.util.Map;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,11 +13,8 @@ import com.transactionchallenge.domain.user.UserType;
 import com.transactionchallenge.dto.transaction.CreateTransactionDTO;
 import com.transactionchallenge.exceptions.ShopkeeperUserException;
 import com.transactionchallenge.exceptions.TransactionNotAuthorizedException;
-import com.transactionchallenge.exceptions.TransactionNotFoundException;
 import com.transactionchallenge.exceptions.UnavailableBalanceException;
-import com.transactionchallenge.exceptions.UserNotFoundException;
 import com.transactionchallenge.repositories.TransactionRepository;
-import com.transactionchallenge.repositories.UserRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -29,7 +25,7 @@ public class TransactionService {
     private TransactionRepository transactionRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -39,17 +35,9 @@ public class TransactionService {
 
     @Transactional
     public Transaction createTransaction(CreateTransactionDTO transactionDTO) {
-        var sender = this.userRepository.findById(transactionDTO.getSenderId()).orElseThrow(
-            () -> {
-                throw new UserNotFoundException();
-            }
-        );
+        var sender = this.userService.findUserById(transactionDTO.getSenderId());
 
-        var receiver = this.userRepository.findById(transactionDTO.getReceiverId()).orElseThrow(
-            () -> {
-                throw new UserNotFoundException();
-            }
-        );
+        var receiver = this.userService.findUserById(transactionDTO.getReceiverId());
 
         this.validateTransaction(sender, transactionDTO.getAmount());
 
@@ -88,33 +76,4 @@ public class TransactionService {
 
         return true;
     }
-
-    public void reverseTransaction(UUID transactionId) {
-        var transaction = this.transactionRepository.findById(transactionId).orElseThrow(
-            () -> {
-                throw new TransactionNotFoundException();
-            }
-        );
-
-        var sender = this.userRepository.findById(transaction.getSender().getId()).orElseThrow(
-            () -> {
-                throw new UserNotFoundException();
-            }
-        );
-
-        var receiver = this.userRepository.findById(transaction.getReceiver().getId()).orElseThrow(
-            () -> {
-                throw new UserNotFoundException();
-            }
-        );
-        
-        var reversedSenderBalance = sender.getBalance().add(transaction.getAmount());
-        sender.setBalance(reversedSenderBalance);
-
-        var reversedReceiverBalance = receiver.getBalance().subtract(transaction.getAmount());
-        receiver.setBalance(reversedReceiverBalance);
-
-        this.transactionRepository.delete(transaction);
-    }
-
 }
