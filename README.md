@@ -33,8 +33,6 @@ I took this back end challenge from this repo [picpay-desafio-backend](https://g
 
 <h3>Cloning</h3>
 
-How to clone your project
-
 ```bash
 git clone git@github.com:fabiovsz/transaction-challenge.git
 ```
