@@ -53,12 +53,16 @@ public class TransactionService {
             .amount(transactionDTO.getAmount())
             .build();
         var createdTransaction = this.transactionRepository.save(newTransaction);
+
+        this.userService.saveUser(sender);
+        this.userService.saveUser(receiver);
+
         this.emailService.sendTransactionEmail(createdTransaction);
 
         return createdTransaction;
     }
 
-    public boolean validateTransaction(User sender, BigDecimal amount) {
+    public void validateTransaction(User sender, BigDecimal amount) {
         if (sender.getUserType() == UserType.SHOPKEEPER) {
             throw new ShopkeeperUserException();
         }
@@ -74,6 +78,5 @@ public class TransactionService {
             throw new TransactionNotAuthorizedException();
         }
 
-        return true;
     }
 }
