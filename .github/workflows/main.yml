@@ -12,6 +12,9 @@ jobs:
     environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
 
     steps:
+      - name: Print env vars
+        run: printenv | grep JWT
+
       - name: Checkout Code
         uses: actions/checkout@v3
 
