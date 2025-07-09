@@ -15,8 +15,18 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Print env vars
-        run: printenv | grep JWT
+      - name: Print secrets test
+        run: |
+          echo "DB_URL=${{ secrets.DB_URL }}"
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}"
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}"
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}"
+          echo "ENVIRONMENT=${{ secrets.ENVIRONMENT }}"
+          echo "GCP_REGION=${{ secrets.GCP_REGION }}"
+          echo "PROJECT_ID=${{ secrets.PROJECT_ID }}"
+          echo "REGISTRY_INFO=${{ secrets.REGISTRY_INFO }}"
+          echo "SQL_INSTANCE_CONNECTION_NAME=${{ secrets.SQL_INSTANCE_CONNECTION_NAME }}"
+          echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}"
 
       - name: Login to Google Cloud
         uses: 'google-github-actions/auth@v2'
