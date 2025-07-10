@@ -48,8 +48,8 @@ jobs:
         run: |
           gcloud run deploy transaction-challenge \
             --image=${{ secrets.REGISTRY_INFO }}/transaction-challenge:latest \
+            --add-cloudsql-instances=${{ secrets.INSTANCE_CONNECTION_NAME }} \
             --platform=managed \
             --region=${{ secrets.GCP_REGION }} \
             --allow-unauthenticated \
-            --add-cloudsql-instances=${{ secrets.SQL_INSTANCE_CONNECTION_NAME }} \
-            --set-env-vars=JWT_SECRET=${{ secrets.JWT_SECRET }},DB_PASSWORD=${{ secrets.DB_PASSWORD }},DB_USERNAME=${{ secrets.DB_USERNAME }},ENVIRONMENT=${{ secrets.ENVIRONMENT }},INSTANCE_CONNECTION_NAME=${{ secrets.INSTANCE_CONNECTION_NAME }},DB_URL=${{ secrets.DB_URL }}
+            --set-env-vars=JWT_SECRET=${{ secrets.JWT_SECRET }},DB_PASSWORD=${{ secrets.DB_PASSWORD }},DB_USERNAME=${{ secrets.DB_USERNAME }},ENVIRONMENT=${{ secrets.ENVIRONMENT }},INSTANCE_CONNECTION_NAME=${{ secrets.INSTANCE_CONNECTION_NAME }}
