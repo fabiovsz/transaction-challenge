@@ -2,7 +2,7 @@ spring:
   application:
     name: transaction-challenge
   datasource:
-    url:  jdbc:postgresql://localhost:5432/${DB_NAME}
+    url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     hikari:
