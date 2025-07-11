@@ -48,7 +48,7 @@ jobs:
         run: |
           gcloud run deploy transaction-challenge \
             --image=${{ secrets.REGISTRY_INFO }}/transaction-challenge:latest \
-            --vpc-connector=my-vpc-connector\
+            --vpc-connector=transaction-challenge-vpc\
             --vpc-egress=all-traffic\
             --add-cloudsql-instances=${{ secrets.INSTANCE_CONNECTION_NAME }} \
             --platform=managed \
